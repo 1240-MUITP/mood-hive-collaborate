@@ -1,26 +1,29 @@
 
-import { video, instagram, product, "app-development" } from "lucide-react";
+import { Video, Instagram, Product } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const sideSections = [
-  { label: "Video Scripts", icon: video, color: "bg-blue-500", iconType: "video" },
-  { label: "Instagram Grid", icon: instagram, color: "bg-pink-500", iconType: "instagram" },
+  { label: "Video Scripts", icon: "video", color: "bg-blue-500", iconType: "video" },
+  { label: "Instagram Grid", icon: "instagram", color: "bg-pink-500", iconType: "instagram" },
   { label: "Productions", icon: "dot", color: "bg-yellow-400" },
   { label: "Post Production", icon: "cube", color: "bg-orange-500" },
-  { label: "Product", icon: product, color: "bg-green-500", iconType: "product" },
+  { label: "Product", icon: "product", color: "bg-green-500", iconType: "product" },
   { label: "App Design", icon: "dot", color: "bg-violet-500" },
-  { label: "App Development", icon: "app-development", color: "bg-cyan-400", iconType: "app-development" },
+  { label: "App Development", icon: "dot", color: "bg-cyan-400", iconType: "app-development" },
   { label: "Incubator", icon: "dot", color: "bg-rose-500" },
 ];
 
+// Map iconType to component
 function getIcon(iconType: string) {
-  // allowed: video, instagram, product, app-development
   switch (iconType) {
-    case "video": return require("lucide-react").Video;
-    case "instagram": return require("lucide-react").Instagram;
-    case "product": return require("lucide-react").Product;
-    case "app-development": return require("lucide-react")["AppDevelopment"];
-    default: return null;
+    case "video":
+      return Video;
+    case "instagram":
+      return Instagram;
+    case "product":
+      return Product;
+    default:
+      return null;
   }
 }
 
@@ -32,12 +35,16 @@ export default function SidebarCRM({ currentSection, setSection }: { currentSect
         <span className="font-bold text-xl">Moodboard U</span>
       </div>
       <button className="ml-3 mt-2 mb-6 w-8 h-8 flex items-center justify-center rounded hover:bg-[#23242a] focus:outline-none">
-        <svg width={26} height={26} stroke="currentColor" fill="none"><rect x="4" y="7" width="18" height="2" rx="1" fill="currentColor"/><rect x="4" y="13" width="14" height="2" rx="1" fill="currentColor"/><rect x="4" y="19" width="10" height="2" rx="1" fill="currentColor"/></svg>
+        <svg width={26} height={26} stroke="currentColor" fill="none">
+          <rect x="4" y="7" width="18" height="2" rx="1" fill="currentColor" />
+          <rect x="4" y="13" width="14" height="2" rx="1" fill="currentColor" />
+          <rect x="4" y="19" width="10" height="2" rx="1" fill="currentColor" />
+        </svg>
       </button>
       <ul className="flex-1 flex flex-col gap-1 px-2 text-base">
         {sideSections.map((s) => {
           const active = currentSection === s.label;
-          let IconComp = typeof s.icon === "string" ? null : getIcon(s.iconType || "");
+          const IconComp = getIcon(s.iconType || "");
           return (
             <li key={s.label}>
               <button
@@ -54,7 +61,9 @@ export default function SidebarCRM({ currentSection, setSection }: { currentSect
                 )}
                 {s.icon === "cube" && (
                   <span>
-                    <svg width={19} height={19} fill="none" stroke="currentColor"><rect x="4" y="4" width="11" height="11" rx="3" fill="#ea580c" /></svg>
+                    <svg width={19} height={19} fill="none" stroke="currentColor">
+                      <rect x="4" y="4" width="11" height="11" rx="3" fill="#ea580c" />
+                    </svg>
                   </span>
                 )}
                 {IconComp && <IconComp className={`${s.color} w-5 h-5`} />}
