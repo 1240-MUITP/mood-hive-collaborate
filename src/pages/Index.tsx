@@ -104,7 +104,7 @@ export default function Index() {
   function handleAddComment(cardId: string, commentText: string) {
     const newComment: Comment = {
       id: Date.now().toString(),
-      author: "You",
+      author: "Nisarg",
       content: commentText,
       timestamp: "Just now"
     };
@@ -137,19 +137,17 @@ export default function Index() {
       <main className="flex-1 flex flex-col px-2 sm:px-10 py-6 sm:py-10 max-w-[1680px] mx-auto min-w-0 relative bg-white rounded-md shadow-sm">
         <div className="absolute top-3 right-4 flex items-center gap-4 z-20">
           <div className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-full border border-gray-200 shadow-sm">
-            <div className="relative flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <div className="w-7 h-7 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-full flex items-center justify-center font-bold text-white text-xs border-2 border-blue-200 shadow-sm">
-                A
+                N
               </div>
-              <span className="text-sm font-semibold text-blue-700">You</span>
-              <div className="absolute -bottom-1 left-[6px] w-2 h-2 rounded-full bg-green-500 border-2 border-white animate-pulse" />
+              <span className="text-sm font-semibold text-blue-700">Nisarg</span>
             </div>
-            <div className="relative flex items-center gap-1 ml-4">
+            <div className="flex items-center gap-2 ml-4">
               <div className="w-7 h-7 bg-gradient-to-tr from-pink-500 to-yellow-500 rounded-full flex items-center justify-center font-bold text-white text-xs border-2 border-yellow-200 shadow-sm">
                 U
               </div>
               <span className="text-sm font-semibold text-yellow-700">Utkarsh</span>
-              <div className="absolute -bottom-1 left-[6px] w-2 h-2 rounded-full bg-green-500 border-2 border-white animate-pulse" />
             </div>
           </div>
           <button className="flex items-center bg-gray-100 border border-gray-200 rounded-full px-3 py-2 hover:bg-gray-200 transition-colors shadow-sm">
