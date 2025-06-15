@@ -5,8 +5,8 @@ import AddIdeaModal from "../components/AddIdeaModal";
 import EditIdeaModal from "../components/EditIdeaModal";
 import CommentModal from "../components/CommentModal";
 import SectionChatPanel from "../components/SectionChatPanel";
+import NotificationDropdown from "../components/NotificationDropdown";
 import { Button } from "@/components/ui/button";
-import { Bell } from "lucide-react";
 
 // Sidebar sections as keys for demo data.
 const sectionOrder = [
@@ -150,10 +150,7 @@ export default function Index() {
               <span className="text-sm font-semibold text-yellow-700">Utkarsh</span>
             </div>
           </div>
-          <button className="flex items-center bg-gray-100 border border-gray-200 rounded-full px-3 py-2 hover:bg-gray-200 transition-colors shadow-sm">
-            <Bell className="w-5 h-5 text-yellow-600" />
-            <span className="sr-only">Notifications</span>
-          </button>
+          <NotificationDropdown />
         </div>
         <div className="flex items-start flex-wrap gap-4 mb-8 pr-[350px]">
           <h1 className="text-3xl font-bold tracking-tight text-gray-800">{section}</h1>
