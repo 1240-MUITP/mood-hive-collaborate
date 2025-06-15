@@ -15,13 +15,25 @@ interface Props {
 export default function EditIdeaModal({ open, onClose, onSave, card }: Props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [existingFileName, setExistingFileName] = useState("");
 
   useEffect(() => {
     if (card) {
       setTitle(card.title);
       setContent(card.content || "");
+      setExistingFileName(card.fileName || "");
+      setFile(null);
     }
   }, [card]);
+
+  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    } else {
+      setFile(null);
+    }
+  }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -31,6 +43,7 @@ export default function EditIdeaModal({ open, onClose, onSave, card }: Props) {
       ...card,
       title,
       content,
+      fileName: file ? file.name : (existingFileName || undefined),
     };
     
     onSave(updatedCard);
@@ -66,6 +79,20 @@ export default function EditIdeaModal({ open, onClose, onSave, card }: Props) {
               onChange={e => setContent(e.target.value)}
               placeholder="Describe your idea..."
             />
+          </div>
+          <div>
+            <label className="block font-medium mb-1 text-gray-700">Attachment</label>
+            {existingFileName && !file && (
+              <div className="text-sm text-gray-600 mb-2 p-2 bg-gray-50 rounded border">
+                Current file: {existingFileName}
+              </div>
+            )}
+            <Input 
+              type="file" 
+              onChange={handleFileChange} 
+              className="file:text-gray-700 file:bg-gray-100 file:border-gray-300 bg-white border-gray-300 text-gray-900" 
+            />
+            {file && <div className="text-xs mt-1 text-gray-600">New file: {file.name}</div>}
           </div>
           <DialogFooter>
             <Button type="button" variant="ghost" onClick={onClose} className="text-gray-600 hover:text-gray-800">

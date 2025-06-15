@@ -64,7 +64,7 @@ export default function AddIdeaModal({ open, onClose, onAdd, section }: Props) {
             />
           </div>
           <div>
-            <label className="block font-medium mb-1 text-gray-700">Attach File</label>
+            <label className="block font-medium mb-1 text-gray-700">Attach File (Optional)</label>
             <Input type="file" onChange={handleFileChange} className="file:text-gray-700 file:bg-gray-100 file:border-gray-300 bg-white border-gray-300 text-gray-900" />
             {file && <div className="text-xs mt-1 text-gray-600">{file.name}</div>}
           </div>

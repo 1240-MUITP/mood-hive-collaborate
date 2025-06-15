@@ -1,6 +1,6 @@
 
 import { FC } from "react";
-import { BookOpen, Code, FolderOpen, Edit, MessageSquare } from "lucide-react";
+import { BookOpen, Code, FolderOpen, Edit, MessageSquare, Paperclip } from "lucide-react";
 
 type CardType = "script" | "image" | "note";
 
@@ -11,6 +11,7 @@ interface CardData {
   content?: string;
   imageUrl?: string;
   language?: string;
+  fileName?: string;
   comments?: Comment[];
 }
 
@@ -80,17 +81,21 @@ const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment }) => {
           >
             <MessageSquare className="w-4 h-4 text-gray-600" />
             {data.comments && data.comments.length > 0 && (
-              <span className="text-xs text-gray-600">{data.comments.length}</span>
+              <span className="text-xs bg-blue-500 text-white rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
+                {data.comments.length}
+              </span>
             )}
           </button>
         </div>
       </div>
+      
       {data.type === "script" && (
         <pre
           className={`rounded bg-gray-100 text-sm text-gray-800 p-3 mt-2 font-mono overflow-x-auto border ${data.language ? syntaxColor[data.language] : syntaxColor.default}`}
           dangerouslySetInnerHTML={{ __html: prettifyCode(data.content) }}
         />
       )}
+      
       {data.type === "image" && data.imageUrl && (
         <img
           src={data.imageUrl}
@@ -98,8 +103,16 @@ const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment }) => {
           className="w-full rounded-lg mt-2 shadow-sm object-cover max-h-44 mx-auto border border-gray-200"
         />
       )}
+      
       {data.type === "note" && (
         <div className="text-base mt-1 text-gray-700">{data.content}</div>
+      )}
+      
+      {data.fileName && (
+        <div className="mt-3 flex items-center gap-2 text-sm text-gray-600 bg-white/50 rounded p-2 border border-gray-200">
+          <Paperclip className="w-4 h-4" />
+          <span>{data.fileName}</span>
+        </div>
       )}
     </div>
   );

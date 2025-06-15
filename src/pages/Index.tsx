@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import MoodboardSidebar from "../components/MoodboardSidebar";
 import MoodboardCard, { CardData, Comment } from "../components/MoodboardCard";
@@ -7,7 +6,7 @@ import EditIdeaModal from "../components/EditIdeaModal";
 import CommentModal from "../components/CommentModal";
 import SectionChatPanel from "../components/SectionChatPanel";
 import { Button } from "@/components/ui/button";
-import { Bell, Users } from "lucide-react";
+import { Bell } from "lucide-react";
 
 // Sidebar sections as keys for demo data.
 const sectionOrder = [
@@ -21,50 +20,21 @@ const sectionOrder = [
   "Incubator"
 ];
 
-// New: minimal demo card data per section for UI
-const demoCards: Record<string, CardData[]> = {
-  "Video Scripts": [
-    { 
-      id: "1", 
-      type: "note", 
-      title: "Interview script draft", 
-      content: "Outline key talking points for the founder Q&A.",
-      comments: [
-        {
-          id: "c1",
-          author: "Utkarsh",
-          content: "This looks great! Maybe add a question about the company's future vision?",
-          timestamp: "2 hours ago"
-        }
-      ]
-    }
-  ],
-  "Instagram Grid": [
-    { id: "2", type: "note", title: "Reel idea: Launch Teaser", content: "15-sec montage of app features dropping in.", comments: [] }
-  ],
-  "Productions": [
-    { id: "3", type: "note", title: "Behind the Scenes", content: "Share editing workflow with team.", comments: [] }
-  ],
-  "Post Production": [
-    { id: "4", type: "note", title: "Color Grading Notes", content: "Aim for a soft, cinematic look.", comments: [] }
-  ],
-  "Product": [
-    { id: "5", type: "note", title: "USP", content: "Highlight 'instant collaboration' in every asset.", comments: [] }
-  ],
-  "App Design": [
-    { id: "6", type: "note", title: "Styleguide", content: "Stick to soft blues, violets, and lots of negative space.", comments: [] }
-  ],
-  "App Development": [
-    { id: "7", type: "note", title: "API endpoints", content: "Draft major API actions and auth requirements.", comments: [] }
-  ],
-  "Incubator": [
-    { id: "8", type: "note", title: "Potential partners", content: "Reach out to production studios for pilot.", comments: [] }
-  ]
+// Empty initial data - removed all dummy cards
+const initialCards: Record<string, CardData[]> = {
+  "Video Scripts": [],
+  "Instagram Grid": [],
+  "Productions": [],
+  "Post Production": [],
+  "Product": [],
+  "App Design": [],
+  "App Development": [],
+  "Incubator": []
 };
 
 export default function Index() {
   const [section, setSection] = useState(sectionOrder[0]);
-  const [cards, setCards] = useState<Record<string, CardData[]>>(demoCards);
+  const [cards, setCards] = useState<Record<string, CardData[]>>(initialCards);
   const [addOpen, setAddOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [commentOpen, setCommentOpen] = useState(false);
@@ -83,6 +53,7 @@ export default function Index() {
           type: type,
           title: data.title,
           content: data.description,
+          fileName: data.file?.name,
           comments: [],
         },
         ...(prev[section] || [])
@@ -136,10 +107,8 @@ export default function Index() {
         }}
       />
       <main className="flex-1 flex flex-col px-2 sm:px-10 py-6 sm:py-10 max-w-[1680px] mx-auto min-w-0 relative bg-white rounded-md shadow-sm">
-        {/* Top-right bar */}
         <div className="absolute top-3 right-4 flex items-center gap-4 z-20">
           <div className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-full border border-gray-200 shadow-sm">
-            {/* Avatars and presence indicators */}
             <div className="relative flex items-center gap-2">
               <div className="w-7 h-7 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-full flex items-center justify-center font-bold text-white text-xs border-2 border-blue-200 shadow-sm">
                 A
@@ -160,7 +129,6 @@ export default function Index() {
             <span className="sr-only">Notifications</span>
           </button>
         </div>
-        {/* End top bar */}
         <div className="flex items-start flex-wrap gap-4 mb-8 pr-[350px]">
           <h1 className="text-3xl font-bold tracking-tight text-gray-800">{section}</h1>
           <Button variant="outline" size="sm" className="ml-2 border-blue-500 text-blue-600 hover:bg-blue-50" onClick={() => setAddOpen(true)}>
@@ -181,21 +149,32 @@ export default function Index() {
           </Button>
         </div>
 
-        <section
-          className={`w-full grid gap-6`}
-          style={{
-            gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))",
-          }}
-        >
-          {(cards[section] ?? []).map(card => (
-            <MoodboardCard 
-              data={card} 
-              key={card.id} 
-              onEdit={handleEdit}
-              onComment={handleComment}
-            />
-          ))}
-        </section>
+        {(cards[section] ?? []).length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 text-center">
+            <div className="text-6xl mb-4">💡</div>
+            <h2 className="text-xl font-semibold text-gray-700 mb-2">No ideas yet in {section}</h2>
+            <p className="text-gray-500 mb-6">Start by adding your first idea to get the creative process going!</p>
+            <Button onClick={() => setAddOpen(true)} className="bg-blue-600 hover:bg-blue-700 text-white">
+              Add Your First Idea
+            </Button>
+          </div>
+        ) : (
+          <section
+            className={`w-full grid gap-6`}
+            style={{
+              gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))",
+            }}
+          >
+            {(cards[section] ?? []).map(card => (
+              <MoodboardCard 
+                data={card} 
+                key={card.id} 
+                onEdit={handleEdit}
+                onComment={handleComment}
+              />
+            ))}
+          </section>
+        )}
 
         <AddIdeaModal
           open={addOpen}
