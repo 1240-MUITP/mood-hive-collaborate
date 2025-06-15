@@ -1,6 +1,6 @@
 
 import { FC } from "react";
-import { BookOpen, Code, FolderOpen } from "lucide-react";
+import { BookOpen, Code, FolderOpen, Edit, MessageSquare } from "lucide-react";
 
 type CardType = "script" | "image" | "note";
 
@@ -11,6 +11,14 @@ interface CardData {
   content?: string;
   imageUrl?: string;
   language?: string;
+  comments?: Comment[];
+}
+
+interface Comment {
+  id: string;
+  author: string;
+  content: string;
+  timestamp: string;
 }
 
 const typeIcon: Record<CardType, any> = {
@@ -20,33 +28,66 @@ const typeIcon: Record<CardType, any> = {
 };
 
 const cardBg: Record<CardType, string> = {
-  script: "bg-blue-900/80",
-  image: "bg-green-900/80",
-  note: "bg-violet-900/80",
+  script: "bg-blue-50 border-blue-200",
+  image: "bg-green-50 border-green-200",
+  note: "bg-violet-50 border-violet-200",
+};
+
+const headerColor: Record<CardType, string> = {
+  script: "text-blue-700",
+  image: "text-green-700",
+  note: "text-violet-700",
 };
 
 const syntaxColor: Record<string, string> = {
-  js: "text-yellow-400",
-  py: "text-cyan-300",
-  ts: "text-blue-300",
-  default: "text-gray-200",
+  js: "text-yellow-600",
+  py: "text-cyan-600",
+  ts: "text-blue-600",
+  default: "text-gray-700",
 };
 
 const prettifyCode = (code?: string) =>
   code?.replace(/</g, "&lt;").replace(/>/g, "&gt;") ?? "";
 
-const MoodboardCard: FC<{ data: CardData }> = ({ data }) => {
+interface MoodboardCardProps {
+  data: CardData;
+  onEdit: (card: CardData) => void;
+  onComment: (card: CardData) => void;
+}
+
+const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment }) => {
   const Icon = typeIcon[data.type];
 
   return (
-    <div className={`rounded-xl p-4 shadow-md ${cardBg[data.type]} border border-border hover:shadow-2xl transition-shadow relative animate-fade-in`}>
-      <div className="flex items-center gap-2 mb-2">
-        <Icon className="w-5 h-5 opacity-80 text-white" />
-        <span className="font-semibold text-lg text-white">{data.title}</span>
+    <div className={`rounded-xl p-4 shadow-sm border-2 ${cardBg[data.type]} hover:shadow-md transition-shadow relative`}>
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <Icon className={`w-5 h-5 ${headerColor[data.type]}`} />
+          <span className={`font-semibold text-lg ${headerColor[data.type]}`}>{data.title}</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <button 
+            onClick={() => onEdit(data)}
+            className="p-1 rounded hover:bg-white/60 transition-colors"
+            title="Edit idea"
+          >
+            <Edit className="w-4 h-4 text-gray-600" />
+          </button>
+          <button 
+            onClick={() => onComment(data)}
+            className="p-1 rounded hover:bg-white/60 transition-colors flex items-center gap-1"
+            title="Comments"
+          >
+            <MessageSquare className="w-4 h-4 text-gray-600" />
+            {data.comments && data.comments.length > 0 && (
+              <span className="text-xs text-gray-600">{data.comments.length}</span>
+            )}
+          </button>
+        </div>
       </div>
       {data.type === "script" && (
         <pre
-          className={`rounded bg-black/80 text-xs text-white p-3 mt-2 font-mono overflow-x-auto ${data.language ? syntaxColor[data.language] : syntaxColor.default}`}
+          className={`rounded bg-gray-100 text-sm text-gray-800 p-3 mt-2 font-mono overflow-x-auto border ${data.language ? syntaxColor[data.language] : syntaxColor.default}`}
           dangerouslySetInnerHTML={{ __html: prettifyCode(data.content) }}
         />
       )}
@@ -54,15 +95,15 @@ const MoodboardCard: FC<{ data: CardData }> = ({ data }) => {
         <img
           src={data.imageUrl}
           alt={data.title}
-          className="w-full rounded-lg mt-2 shadow object-cover max-h-44 mx-auto border border-border"
+          className="w-full rounded-lg mt-2 shadow-sm object-cover max-h-44 mx-auto border border-gray-200"
         />
       )}
       {data.type === "note" && (
-        <div className="text-base mt-1 text-gray-200">{data.content}</div>
+        <div className="text-base mt-1 text-gray-700">{data.content}</div>
       )}
     </div>
   );
 };
 
 export default MoodboardCard;
-export type { CardData, CardType };
+export type { CardData, CardType, Comment };

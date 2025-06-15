@@ -43,34 +43,34 @@ export default function AddIdeaModal({ open, onClose, onAdd, section }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={v => !v && onClose()}>
-      <DialogContent className="max-w-md bg-neutral-950 border border-blue-800 text-neutral-100 shadow-lg">
+      <DialogContent className="max-w-md bg-white border border-gray-300 text-gray-900 shadow-lg">
         <DialogHeader>
-          <DialogTitle className="text-blue-200">Add to {section}</DialogTitle>
+          <DialogTitle className="text-gray-900">Add to {section}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4" encType="multipart/form-data">
           <div>
-            <label className="block font-medium mb-1 text-blue-100">Title</label>
-            <Input required value={title} onChange={e => setTitle(e.target.value)} placeholder="Title for your idea..." className="bg-neutral-900 border-blue-700 text-neutral-100 placeholder:text-neutral-400" />
+            <label className="block font-medium mb-1 text-gray-700">Title</label>
+            <Input required value={title} onChange={e => setTitle(e.target.value)} placeholder="Title for your idea..." className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-500" />
           </div>
           <div>
-            <label className="block font-medium mb-1 text-blue-100">Description</label>
+            <label className="block font-medium mb-1 text-gray-700">Description</label>
             <textarea
               required
               rows={4}
-              className="w-full border border-blue-700 bg-neutral-900 rounded p-2 text-neutral-100 placeholder:text-neutral-400"
+              className="w-full border border-gray-300 bg-white rounded p-2 text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
               value={description}
               onChange={e => setDescription(e.target.value)}
               placeholder="Describe your idea..."
             />
           </div>
           <div>
-            <label className="block font-medium mb-1 text-blue-100">Attach File</label>
-            <Input type="file" onChange={handleFileChange} className="file:text-blue-200 file:bg-neutral-800 file:border-blue-600 bg-neutral-900 border-blue-700 text-neutral-100" />
-            {file && <div className="text-xs mt-1 text-blue-200">{file.name}</div>}
+            <label className="block font-medium mb-1 text-gray-700">Attach File</label>
+            <Input type="file" onChange={handleFileChange} className="file:text-gray-700 file:bg-gray-100 file:border-gray-300 bg-white border-gray-300 text-gray-900" />
+            {file && <div className="text-xs mt-1 text-gray-600">{file.name}</div>}
           </div>
           <DialogFooter>
-            <Button type="button" variant="ghost" onClick={onClose} className="text-neutral-400 hover:text-white">Cancel</Button>
-            <Button type="submit" variant="default" className="bg-blue-700 hover:bg-blue-800 text-white">Add</Button>
+            <Button type="button" variant="ghost" onClick={onClose} className="text-gray-600 hover:text-gray-800">Cancel</Button>
+            <Button type="submit" variant="default" className="bg-blue-600 hover:bg-blue-700 text-white">Add</Button>
           </DialogFooter>
         </form>
       </DialogContent>
