@@ -109,14 +109,35 @@ export default function Index() {
         <TopbarCRM section={section} />
         <main className="flex-1 flex flex-col px-2 sm:px-8 pt-6 pb-10 max-w-[1600px] mx-auto min-w-0 relative">
           <div className="flex items-start gap-3 mb-8">
-            <input type="text" placeholder="Search ideas..." className="bg-[#23242A] text-white placeholder:text-gray-400 px-3 py-2 rounded-md border border-[#33394d] focus:outline-none focus:border-blue-500 w-52 transition" />
-            <Button variant="default" size="sm" className="bg-blue-600 hover:bg-blue-700 text-white shadow" onClick={() => setAddOpen(true)}>
-              + Add Idea
-            </Button>
-            <Button variant={chatOpen ? "default" : "outline"} size="sm" className={chatOpen ? "bg-[#22244b] text-blue-400 border-none" : "bg-[#1a1b24] border border-[#33394d] text-gray-300 hover:bg-[#18192d]"} onClick={() => setChatOpen(o => !o)}>
-              <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              <span className="hidden sm:inline">{chatOpen ? "Hide" : "Show"} Chat</span>
-            </Button>
+            <input
+              type="text"
+              placeholder="Search ideas..."
+              className="flex-1 max-w-xs min-w-[140px] bg-[#23242A] text-white placeholder:text-gray-400 px-3 py-2 rounded-md border border-[#33394d] focus:outline-none focus:border-blue-500 transition"
+            />
+            <div className="flex gap-3">
+              <Button variant="default" size="sm" className="bg-blue-600 hover:bg-blue-700 text-white shadow" onClick={() => setAddOpen(true)}>
+                + Add Idea
+              </Button>
+              <Button
+                variant={chatOpen ? "default" : "outline"}
+                size="sm"
+                className={
+                  chatOpen
+                    ? "bg-[#22244b] text-blue-400 border-none"
+                    : "bg-[#1a1b24] border border-[#33394d] text-gray-300 hover:bg-[#18192d]"
+                }
+                onClick={() => setChatOpen(o => !o)}
+              >
+                <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <path
+                    d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span className="hidden sm:inline">{chatOpen ? "Hide" : "Show"} Chat</span>
+              </Button>
+            </div>
           </div>
           {(cards[section] ?? []).length === 0 ? <div className="flex flex-col items-center justify-center py-24 text-center w-full shadow-lg transition-all rounded-none bg-transparent">
               <div className="mb-4 flex justify-center">
