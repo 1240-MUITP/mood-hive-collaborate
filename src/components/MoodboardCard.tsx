@@ -1,3 +1,4 @@
+
 import { FC } from "react";
 import { BookOpen, Code, FolderOpen, Edit, MessageSquare, Paperclip, Trash2, ExternalLink, X } from "lucide-react";
 
@@ -29,15 +30,15 @@ const typeIcon: Record<CardType, any> = {
 };
 
 const cardBg: Record<CardType, string> = {
-  script: "bg-gray-800 border-gray-700",
-  image: "bg-gray-800 border-gray-700",
-  note: "bg-gray-800 border-gray-700",
+  script: "bg-blue-50 border-blue-200",
+  image: "bg-green-50 border-green-200",
+  note: "bg-violet-50 border-violet-200",
 };
 
 const headerColor: Record<CardType, string> = {
-  script: "text-blue-400",
-  image: "text-green-400",
-  note: "text-violet-400",
+  script: "text-blue-700",
+  image: "text-green-700",
+  note: "text-violet-700",
 };
 
 const syntaxColor: Record<string, string> = {
@@ -62,8 +63,8 @@ const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment, onDele
   const Icon = typeIcon[data.type];
 
   return (
-    <div className={`rounded-xl p-4 shadow-lg border ${cardBg[data.type]} hover:shadow-xl transition-all relative`}>
-      <div className="flex items-center justify-between mb-3">
+    <div className={`rounded-xl p-4 shadow-sm border-2 ${cardBg[data.type]} hover:shadow-md transition-shadow relative`}>
+      <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <Icon className={`w-5 h-5 ${headerColor[data.type]}`} />
           <span className={`font-semibold text-lg ${headerColor[data.type]} truncate`}>{data.title}</span>
@@ -71,17 +72,17 @@ const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment, onDele
         <div className="flex items-center gap-1">
           <button 
             onClick={() => onEdit(data)}
-            className="p-1.5 rounded hover:bg-gray-700 transition-colors"
+            className="p-1 rounded hover:bg-white/60 transition-colors"
             title="Edit idea"
           >
-            <Edit className="w-4 h-4 text-gray-400" />
+            <Edit className="w-4 h-4 text-gray-600" />
           </button>
           <button 
             onClick={() => onComment(data)}
-            className="p-1.5 rounded hover:bg-gray-700 transition-colors flex items-center gap-1"
+            className="p-1 rounded hover:bg-white/60 transition-colors flex items-center gap-1"
             title="Comments"
           >
-            <MessageSquare className="w-4 h-4 text-gray-400" />
+            <MessageSquare className="w-4 h-4 text-gray-600" />
             {data.comments && data.comments.length > 0 && (
               <span className="text-xs bg-blue-500 text-white rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
                 {data.comments.length}
@@ -90,17 +91,17 @@ const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment, onDele
           </button>
           <button 
             onClick={() => onDelete(data.id)}
-            className="p-1.5 rounded hover:bg-red-500/20 transition-colors"
+            className="p-1 rounded hover:bg-red-100 transition-colors"
             title="Delete idea"
           >
-            <Trash2 className="w-4 h-4 text-red-400 hover:text-red-300" />
+            <Trash2 className="w-4 h-4 text-red-500 hover:text-red-700" />
           </button>
         </div>
       </div>
       
       {data.type === "script" && (
         <pre
-          className={`rounded-lg bg-gray-900 text-sm text-gray-200 p-3 mt-2 font-mono overflow-x-auto border border-gray-600`}
+          className={`rounded bg-gray-100 text-sm text-gray-800 p-3 mt-2 font-mono overflow-x-auto border ${data.language ? syntaxColor[data.language] : syntaxColor.default}`}
           dangerouslySetInnerHTML={{ __html: prettifyCode(data.content) }}
         />
       )}
@@ -109,13 +110,13 @@ const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment, onDele
         <img
           src={data.imageUrl}
           alt={data.title}
-          className="w-full rounded-lg mt-2 shadow-sm object-cover max-h-44 mx-auto border border-gray-600"
+          className="w-full rounded-lg mt-2 shadow-sm object-cover max-h-44 mx-auto border border-gray-200"
         />
       )}
       
       {data.type === "note" && (
         <div 
-          className="text-base mt-1 text-gray-300 break-words overflow-hidden"
+          className="text-base mt-1 text-gray-700 break-words overflow-hidden"
           style={{ 
             display: '-webkit-box',
             WebkitLineClamp: 4,
@@ -128,7 +129,7 @@ const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment, onDele
       )}
       
       {data.link && (
-        <div className="mt-3 flex items-center gap-2 text-sm text-blue-400 bg-blue-500/10 rounded-lg p-3 border border-blue-500/30">
+        <div className="mt-3 flex items-center gap-2 text-sm text-blue-600 bg-blue-50 rounded p-2 border border-blue-200">
           <ExternalLink className="w-4 h-4 flex-shrink-0" />
           <a 
             href={data.link} 
@@ -143,7 +144,7 @@ const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment, onDele
       )}
       
       {data.fileName && (
-        <div className="mt-3 flex items-center justify-between gap-2 text-sm text-gray-400 bg-gray-700/50 rounded-lg p-3 border border-gray-600">
+        <div className="mt-3 flex items-center justify-between gap-2 text-sm text-gray-600 bg-white/50 rounded p-2 border border-gray-200">
           <div className="flex items-center gap-2 min-w-0">
             <Paperclip className="w-4 h-4 flex-shrink-0" />
             <span className="truncate" title={data.fileName}>{data.fileName}</span>
@@ -151,10 +152,10 @@ const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment, onDele
           {onDeleteAttachment && (
             <button
               onClick={() => onDeleteAttachment(data.id)}
-              className="p-1 rounded hover:bg-red-500/20 transition-colors flex-shrink-0"
+              className="p-1 rounded hover:bg-red-100 transition-colors flex-shrink-0"
               title="Remove attachment"
             >
-              <X className="w-3 h-3 text-red-400 hover:text-red-300" />
+              <X className="w-3 h-3 text-red-500 hover:text-red-700" />
             </button>
           )}
         </div>
