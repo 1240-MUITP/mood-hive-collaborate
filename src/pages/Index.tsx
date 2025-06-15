@@ -51,21 +51,36 @@ export default function Index() {
   const [section, setSection] = useState(sectionOrder[0]);
   const [cards, setCards] = useState<Record<string, CardData[]>>(demoCards);
   const [addOpen, setAddOpen] = useState(false);
-  const [chatOpen, setChatOpen] = useState(true); // Chat is open by default
+  const [chatOpen, setChatOpen] = useState(false); // changed: false by default
 
-  function handleAdd(type: "script" | "image" | "note", data: any) {
+  function handleAdd(
+    type: "note",
+    data: { title: string; description: string; file?: File | null }
+  ) {
     setCards(prev => ({
       ...prev,
-      [section]: [{ id: Date.now().toString(), type, ...data }, ...(prev[section]||[])]
+      [section]: [
+        {
+          id: Date.now().toString(),
+          type: type,
+          title: data.title,
+          content: data.description,
+          // For demo: ignore file (handled in form only)
+        },
+        ...(prev[section] || [])
+      ]
     }));
   }
 
   return (
     <div className="flex w-full min-h-screen bg-background dark:bg-neutral-950 text-gray-100">
-      <MoodboardSidebar currentSection={section} setSection={sect => {
-        setSection(sect);
-        setChatOpen(true);
-      }} />
+      <MoodboardSidebar
+        currentSection={section}
+        setSection={sect => {
+          setSection(sect);
+          // Do not auto-open chat when switching section
+        }}
+      />
       <main className="flex-1 flex flex-col px-2 sm:px-10 py-6 sm:py-10 max-w-[1680px] mx-auto min-w-0 relative">
         {/* Top-right bar: presence and notifications */}
         <div className="absolute top-3 right-4 flex items-center gap-4 z-20">
@@ -94,17 +109,21 @@ export default function Index() {
 
         <div className="flex items-start flex-wrap gap-4 mb-8 pr-[350px]">
           <h1 className="text-3xl font-bold tracking-tight text-primary">{section}</h1>
-          <Button variant="outline" size="sm" className="ml-2" onClick={()=>setAddOpen(true)}>
+          <Button variant="outline" size="sm" className="ml-2" onClick={() => setAddOpen(true)}>
             + Add Idea
           </Button>
           <Button
             variant={chatOpen ? "default" : "outline"}
             size="sm"
             className="ml-2"
-            onClick={()=>setChatOpen(o=>!o)}
+            onClick={() => setChatOpen(o => !o)}
           >
             <span className="hidden sm:inline">{chatOpen ? "Hide" : "Show"} Chat</span>
-            <span className="sm:hidden"><svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
+            <span className="sm:hidden">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
           </Button>
         </div>
 
@@ -119,16 +138,21 @@ export default function Index() {
           ))}
         </section>
 
-        <AddIdeaModal open={addOpen} onClose={()=>setAddOpen(false)} onAdd={handleAdd} section={section} />
+        <AddIdeaModal
+          open={addOpen}
+          onClose={() => setAddOpen(false)}
+          onAdd={handleAdd}
+          section={section}
+        />
 
         {chatOpen && (
-          <div className="fixed right-0 top-0 h-full hidden sm:block" style={{width: 350, zIndex: 30}}>
-            <SectionChatPanel section={section} onClose={()=>setChatOpen(false)}/>
+          <div className="fixed right-0 top-0 h-full hidden sm:block" style={{ width: 350, zIndex: 30 }}>
+            <SectionChatPanel section={section} onClose={() => setChatOpen(false)} />
           </div>
         )}
         {chatOpen && (
           <div className="block sm:hidden mt-6">
-            <SectionChatPanel section={section} onClose={()=>setChatOpen(false)}/>
+            <SectionChatPanel section={section} onClose={() => setChatOpen(false)} />
           </div>
         )}
       </main>
