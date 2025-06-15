@@ -1,6 +1,6 @@
 
 import { FC } from "react";
-import { BookOpen, Code, FolderOpen, Edit, MessageSquare, Paperclip, Trash2, ExternalLink } from "lucide-react";
+import { BookOpen, Code, FolderOpen, Edit, MessageSquare, Paperclip, Trash2, ExternalLink, X } from "lucide-react";
 
 type CardType = "script" | "image" | "note";
 
@@ -56,9 +56,10 @@ interface MoodboardCardProps {
   onEdit: (card: CardData) => void;
   onComment: (card: CardData) => void;
   onDelete: (cardId: string) => void;
+  onDeleteAttachment?: (cardId: string) => void;
 }
 
-const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment, onDelete }) => {
+const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment, onDelete, onDeleteAttachment }) => {
   const Icon = typeIcon[data.type];
 
   return (
@@ -66,7 +67,7 @@ const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment, onDele
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <Icon className={`w-5 h-5 ${headerColor[data.type]}`} />
-          <span className={`font-semibold text-lg ${headerColor[data.type]}`}>{data.title}</span>
+          <span className={`font-semibold text-lg ${headerColor[data.type]} truncate`}>{data.title}</span>
         </div>
         <div className="flex items-center gap-1">
           <button 
@@ -114,22 +115,49 @@ const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment, onDele
       )}
       
       {data.type === "note" && (
-        <div className="text-base mt-1 text-gray-700">{data.content}</div>
+        <div 
+          className="text-base mt-1 text-gray-700 break-words overflow-hidden"
+          style={{ 
+            display: '-webkit-box',
+            WebkitLineClamp: 4,
+            WebkitBoxOrient: 'vertical',
+            maxHeight: '6rem'
+          }}
+        >
+          {data.content}
+        </div>
       )}
       
       {data.link && (
         <div className="mt-3 flex items-center gap-2 text-sm text-blue-600 bg-blue-50 rounded p-2 border border-blue-200">
-          <ExternalLink className="w-4 h-4" />
-          <a href={data.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
+          <ExternalLink className="w-4 h-4 flex-shrink-0" />
+          <a 
+            href={data.link} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="hover:underline truncate"
+            title={data.link}
+          >
             {data.link}
           </a>
         </div>
       )}
       
       {data.fileName && (
-        <div className="mt-3 flex items-center gap-2 text-sm text-gray-600 bg-white/50 rounded p-2 border border-gray-200">
-          <Paperclip className="w-4 h-4" />
-          <span>{data.fileName}</span>
+        <div className="mt-3 flex items-center justify-between gap-2 text-sm text-gray-600 bg-white/50 rounded p-2 border border-gray-200">
+          <div className="flex items-center gap-2 min-w-0">
+            <Paperclip className="w-4 h-4 flex-shrink-0" />
+            <span className="truncate" title={data.fileName}>{data.fileName}</span>
+          </div>
+          {onDeleteAttachment && (
+            <button
+              onClick={() => onDeleteAttachment(data.id)}
+              className="p-1 rounded hover:bg-red-100 transition-colors flex-shrink-0"
+              title="Remove attachment"
+            >
+              <X className="w-3 h-3 text-red-500 hover:text-red-700" />
+            </button>
+          )}
         </div>
       )}
     </div>

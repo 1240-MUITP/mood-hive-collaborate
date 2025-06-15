@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogFooter, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,7 @@ export default function CommentModal({ open, onClose, onAddComment, card }: Prop
     
     onAddComment(card.id, newComment);
     setNewComment("");
+    // Don't close the modal so user can see the comment was added
   }
 
   if (!card) return null;
@@ -41,7 +43,7 @@ export default function CommentModal({ open, onClose, onAddComment, card }: Prop
                     <span className="font-medium text-sm text-gray-700">{comment.author}</span>
                     <span className="text-xs text-gray-500">{comment.timestamp}</span>
                   </div>
-                  <p className="text-gray-800 text-sm">{comment.content}</p>
+                  <p className="text-gray-800 text-sm break-words">{comment.content}</p>
                 </div>
               ))
             ) : (

@@ -85,6 +85,17 @@ export default function Index() {
     }
   }
 
+  function handleDeleteAttachment(cardId: string) {
+    if (confirm("Are you sure you want to remove this attachment?")) {
+      setCards(prev => ({
+        ...prev,
+        [section]: prev[section].map(card => 
+          card.id === cardId ? { ...card, fileName: undefined } : card
+        )
+      }));
+    }
+  }
+
   function handleComment(card: CardData) {
     setSelectedCard(card);
     setCommentOpen(true);
@@ -106,6 +117,13 @@ export default function Index() {
           : card
       )
     }));
+
+    // Update selectedCard to reflect the new comment immediately
+    setSelectedCard(prev => 
+      prev && prev.id === cardId 
+        ? { ...prev, comments: [...(prev.comments || []), newComment] }
+        : prev
+    );
   }
 
   return (
@@ -182,6 +200,7 @@ export default function Index() {
                 onEdit={handleEdit}
                 onComment={handleComment}
                 onDelete={handleDelete}
+                onDeleteAttachment={handleDeleteAttachment}
               />
             ))}
           </section>
