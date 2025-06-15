@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import MoodboardSidebar from "../components/MoodboardSidebar";
 import MoodboardCard, { CardData } from "../components/MoodboardCard";
@@ -73,49 +72,48 @@ export default function Index() {
   }
 
   return (
-    <div className="flex w-full min-h-screen bg-background dark:bg-neutral-950 text-gray-100">
+    <div className="flex w-full min-h-screen bg-neutral-950 text-neutral-100">
       <MoodboardSidebar
         currentSection={section}
         setSection={sect => {
           setSection(sect);
-          // Do not auto-open chat when switching section
         }}
       />
-      <main className="flex-1 flex flex-col px-2 sm:px-10 py-6 sm:py-10 max-w-[1680px] mx-auto min-w-0 relative">
-        {/* Top-right bar: presence and notifications */}
+      <main className="flex-1 flex flex-col px-2 sm:px-10 py-6 sm:py-10 max-w-[1680px] mx-auto min-w-0 relative bg-neutral-900/90 rounded-md shadow-xl">
+        {/* Top-right bar */}
         <div className="absolute top-3 right-4 flex items-center gap-4 z-20">
-          <div className="flex items-center gap-2 bg-neutral-900 px-4 py-2 rounded-full border border-border">
+          <div className="flex items-center gap-2 bg-neutral-900 px-4 py-2 rounded-full border border-border shadow-md">
+            {/* Avatars and presence indicators */}
             <div className="relative flex items-center gap-2">
-              <div className="w-7 h-7 bg-gradient-to-tr from-blue-500 to-purple-400 rounded-full flex items-center justify-center font-bold text-white text-xs border-2 border-gray-200">
+              <div className="w-7 h-7 bg-gradient-to-tr from-blue-600 to-purple-700 rounded-full flex items-center justify-center font-bold text-white text-xs border-2 border-blue-200 shadow">
                 A
               </div>
-              <span className="text-sm font-medium">You</span>
-              <div className="absolute -bottom-1 left-[6px] w-2 h-2 rounded-full bg-green-500 border-2 border-neutral-900 animate-pulse" />
+              <span className="text-sm font-semibold text-blue-100">You</span>
+              <div className="absolute -bottom-1 left-[6px] w-2 h-2 rounded-full bg-green-400 border-2 border-neutral-900 animate-pulse" />
             </div>
             <div className="relative flex items-center gap-1 ml-4">
-              <div className="w-7 h-7 bg-gradient-to-tr from-pink-600 to-yellow-400 rounded-full flex items-center justify-center font-bold text-white text-xs border-2 border-gray-200">
+              <div className="w-7 h-7 bg-gradient-to-tr from-pink-700 to-yellow-400 rounded-full flex items-center justify-center font-bold text-white text-xs border-2 border-yellow-100 shadow">
                 U
               </div>
-              <span className="text-sm font-medium">Utkarsh</span>
-              <div className="absolute -bottom-1 left-[6px] w-2 h-2 rounded-full bg-green-500 border-2 border-neutral-900 animate-pulse" />
+              <span className="text-sm font-semibold text-yellow-100">Utkarsh</span>
+              <div className="absolute -bottom-1 left-[6px] w-2 h-2 rounded-full bg-green-400 border-2 border-neutral-900 animate-pulse" />
             </div>
           </div>
-          <button className="flex items-center bg-neutral-900 border border-border rounded-full px-3 py-2 hover:bg-neutral-800 transition-colors shadow">
-            <Bell className="w-5 h-5 text-yellow-400" />
+          <button className="flex items-center bg-neutral-800 border border-border rounded-full px-3 py-2 hover:bg-neutral-700 transition-colors shadow-md">
+            <Bell className="w-5 h-5 text-yellow-300" />
             <span className="sr-only">Notifications</span>
           </button>
         </div>
         {/* End top bar */}
-
         <div className="flex items-start flex-wrap gap-4 mb-8 pr-[350px]">
-          <h1 className="text-3xl font-bold tracking-tight text-primary">{section}</h1>
-          <Button variant="outline" size="sm" className="ml-2" onClick={() => setAddOpen(true)}>
+          <h1 className="text-3xl font-bold tracking-tight text-blue-200">{section}</h1>
+          <Button variant="outline" size="sm" className="ml-2 border-blue-500 text-blue-100 hover:bg-blue-900/80" onClick={() => setAddOpen(true)}>
             + Add Idea
           </Button>
           <Button
             variant={chatOpen ? "default" : "outline"}
             size="sm"
-            className="ml-2"
+            className={`ml-2 ${chatOpen ? "bg-blue-800 text-white" : "border-blue-400 text-blue-200 hover:bg-blue-950/60"}`}
             onClick={() => setChatOpen(o => !o)}
           >
             <span className="hidden sm:inline">{chatOpen ? "Hide" : "Show"} Chat</span>
@@ -130,7 +128,7 @@ export default function Index() {
         <section
           className={`w-full grid gap-6`}
           style={{
-            gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))"
+            gridTemplateColumns: "repeat(auto-fit, minmax(270px, 1fr))",
           }}
         >
           {(cards[section] ?? []).map(card => (

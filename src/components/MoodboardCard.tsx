@@ -20,16 +20,16 @@ const typeIcon: Record<CardType, any> = {
 };
 
 const cardBg: Record<CardType, string> = {
-  script: "bg-blue-50",
-  image: "bg-green-50",
-  note: "bg-purple-50",
+  script: "bg-blue-900/80",
+  image: "bg-green-900/80",
+  note: "bg-violet-900/80",
 };
 
 const syntaxColor: Record<string, string> = {
-  js: "text-yellow-700",
-  py: "text-blue-900",
-  ts: "text-blue-600",
-  default: "text-gray-700",
+  js: "text-yellow-400",
+  py: "text-cyan-300",
+  ts: "text-blue-300",
+  default: "text-gray-200",
 };
 
 const prettifyCode = (code?: string) =>
@@ -39,10 +39,10 @@ const MoodboardCard: FC<{ data: CardData }> = ({ data }) => {
   const Icon = typeIcon[data.type];
 
   return (
-    <div className={`rounded-xl p-4 shadow-md ${cardBg[data.type]} hover:shadow-xl transition-shadow relative border border-border animate-fade-in`}>
+    <div className={`rounded-xl p-4 shadow-md ${cardBg[data.type]} border border-border hover:shadow-2xl transition-shadow relative animate-fade-in`}>
       <div className="flex items-center gap-2 mb-2">
-        <Icon className="w-5 h-5 opacity-70" />
-        <span className="font-semibold text-lg">{data.title}</span>
+        <Icon className="w-5 h-5 opacity-80 text-white" />
+        <span className="font-semibold text-lg text-white">{data.title}</span>
       </div>
       {data.type === "script" && (
         <pre
@@ -54,11 +54,11 @@ const MoodboardCard: FC<{ data: CardData }> = ({ data }) => {
         <img
           src={data.imageUrl}
           alt={data.title}
-          className="w-full rounded-lg mt-2 shadow object-cover max-h-44 mx-auto"
+          className="w-full rounded-lg mt-2 shadow object-cover max-h-44 mx-auto border border-border"
         />
       )}
       {data.type === "note" && (
-        <div className="text-base mt-1 text-gray-700">{data.content}</div>
+        <div className="text-base mt-1 text-gray-200">{data.content}</div>
       )}
     </div>
   );
