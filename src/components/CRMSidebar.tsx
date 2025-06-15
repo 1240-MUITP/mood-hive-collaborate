@@ -1,62 +1,78 @@
 
-import { Users, ChevronRight, BarChart3, Calendar, FileText, Settings, HelpCircle } from "lucide-react";
+import { ChevronRight, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const sections = [
   {
     name: "Video Scripts",
-    color: "text-blue-600",
-    bgColor: "bg-blue-50",
-    borderColor: "border-blue-200",
+    color: "text-blue-400",
+    bgColor: "bg-blue-500/10",
+    borderColor: "border-blue-500/30",
+    dotColor: "bg-blue-400",
+    icon: "🎬",
     count: 0
   },
   {
     name: "Instagram Grid",
-    color: "text-pink-600",
-    bgColor: "bg-pink-50",
-    borderColor: "border-pink-200",
+    color: "text-pink-400",
+    bgColor: "bg-pink-500/10",
+    borderColor: "border-pink-500/30",
+    dotColor: "bg-pink-400",
+    icon: "📷",
     count: 0
   },
   {
     name: "Productions",
-    color: "text-yellow-600",
-    bgColor: "bg-yellow-50",
-    borderColor: "border-yellow-200",
+    color: "text-yellow-400",
+    bgColor: "bg-yellow-500/10",
+    borderColor: "border-yellow-500/30",
+    dotColor: "bg-yellow-400",
+    icon: "🎭",
     count: 0
   },
   {
     name: "Post Production",
-    color: "text-orange-600",
-    bgColor: "bg-orange-50",
-    borderColor: "border-orange-200",
+    color: "text-orange-400",
+    bgColor: "bg-orange-500/10",
+    borderColor: "border-orange-500/30",
+    dotColor: "bg-orange-400",
+    icon: "🎞️",
     count: 0
   },
   {
     name: "Product",
-    color: "text-green-600",
-    bgColor: "bg-green-50",
-    borderColor: "border-green-200",
+    color: "text-green-400",
+    bgColor: "bg-green-500/10",
+    borderColor: "border-green-500/30",
+    dotColor: "bg-green-400",
+    icon: "📦",
     count: 0
   },
   {
     name: "App Design",
-    color: "text-violet-600",
-    bgColor: "bg-violet-50",
-    borderColor: "border-violet-200",
+    color: "text-violet-400",
+    bgColor: "bg-violet-500/10",
+    borderColor: "border-violet-500/30",
+    dotColor: "bg-violet-400",
+    icon: "🎨",
     count: 0
   },
   {
     name: "App Development",
-    color: "text-cyan-600",
-    bgColor: "bg-cyan-50",
-    borderColor: "border-cyan-200",
+    color: "text-cyan-400",
+    bgColor: "bg-cyan-500/10",
+    borderColor: "border-cyan-500/30",
+    dotColor: "bg-cyan-400",
+    icon: "💻",
     count: 0
   },
   {
     name: "Incubator",
-    color: "text-rose-600",
-    bgColor: "bg-rose-50",
-    borderColor: "border-rose-200",
+    color: "text-rose-400",
+    bgColor: "bg-rose-500/10",
+    borderColor: "border-rose-500/30",
+    dotColor: "bg-rose-400",
+    icon: "🚀",
     count: 0
   }
 ];
@@ -69,55 +85,41 @@ interface CRMSidebarProps {
 
 export default function CRMSidebar({ currentSection, setSection, sectionCounts }: CRMSidebarProps) {
   return (
-    <aside className="w-64 bg-gray-50 border-r border-gray-200 flex flex-col h-full">
-      <div className="p-4 border-b border-gray-200">
-        <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Sections</h2>
-      </div>
-      
-      <nav className="flex-1 p-2 space-y-1">
+    <aside className="w-80 bg-gray-900 border-r border-gray-700 flex flex-col h-full">
+      <nav className="flex-1 p-4 space-y-2">
         {sections.map(sec => (
           <button 
             key={sec.name}
-            className={`w-full flex items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium transition-all hover:bg-white hover:shadow-sm group ${
+            className={`w-full flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-all group ${
               currentSection === sec.name 
-                ? `${sec.bgColor} ${sec.color} shadow-sm border ${sec.borderColor}` 
-                : "text-gray-700 hover:text-gray-900"
+                ? `${sec.bgColor} ${sec.color} border ${sec.borderColor}` 
+                : "text-gray-400 hover:text-gray-200 hover:bg-gray-800/50"
             }`}
             onClick={() => setSection(sec.name)}
           >
             <div className="flex items-center gap-3">
-              <span className={`inline-block w-2 h-2 rounded-full ${currentSection === sec.name ? 'bg-current' : 'bg-gray-400'}`} />
+              <span className="text-lg">{sec.icon}</span>
+              <span className={`inline-block w-2 h-2 rounded-full ${currentSection === sec.name ? sec.dotColor : 'bg-gray-600'}`} />
               <span className="truncate">{sec.name}</span>
             </div>
             <div className="flex items-center gap-2">
               {sectionCounts[sec.name] > 0 && (
-                <span className={`text-xs px-2 py-0.5 rounded-full ${
-                  currentSection === sec.name ? 'bg-white bg-opacity-70' : 'bg-gray-200 text-gray-600'
+                <span className={`text-xs px-2 py-1 rounded-full ${
+                  currentSection === sec.name ? 'bg-white/20' : 'bg-gray-700 text-gray-300'
                 }`}>
                   {sectionCounts[sec.name]}
                 </span>
               )}
-              <ChevronRight className={`w-4 h-4 transition-transform ${
-                currentSection === sec.name ? 'rotate-90 opacity-70' : 'opacity-0 group-hover:opacity-50'
-              }`} />
             </div>
           </button>
         ))}
       </nav>
 
-      <div className="p-4 border-t border-gray-200 space-y-2">
-        <Button variant="ghost" size="sm" className="w-full justify-start text-gray-600 hover:text-gray-900">
-          <BarChart3 className="w-4 h-4 mr-3" />
-          Analytics
-        </Button>
-        <Button variant="ghost" size="sm" className="w-full justify-start text-gray-600 hover:text-gray-900">
-          <Calendar className="w-4 h-4 mr-3" />
-          Calendar
-        </Button>
-        <Button variant="ghost" size="sm" className="w-full justify-start text-gray-600 hover:text-gray-900">
-          <HelpCircle className="w-4 h-4 mr-3" />
-          Help & Support
-        </Button>
+      <div className="p-4 border-t border-gray-700">
+        <div className="flex items-center gap-2 text-xs text-gray-500 bg-gray-800/50 rounded-lg px-3 py-2">
+          <Zap className="w-3 h-3" />
+          <span>All updates are instant</span>
+        </div>
       </div>
     </aside>
   );

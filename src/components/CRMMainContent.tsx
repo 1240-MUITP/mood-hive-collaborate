@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { MessageSquare, Grid3X3, List, Filter, SortAsc } from "lucide-react";
+import { MessageSquare, Grid3X3, List, Filter, SortAsc, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MoodboardCard, { CardData } from "./MoodboardCard";
 import SectionChatPanel from "./SectionChatPanel";
@@ -28,53 +28,31 @@ export default function CRMMainContent({
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   return (
-    <div className="flex-1 flex flex-col bg-white relative">
+    <div className="flex-1 flex flex-col bg-gray-900 relative">
       {/* Section Header */}
-      <div className="border-b border-gray-200 px-6 py-4">
+      <div className="border-b border-gray-700 px-6 py-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div>
-              <h1 className="text-2xl font-semibold text-gray-900">{section}</h1>
-              <p className="text-sm text-gray-500 mt-1">
-                {cards.length} {cards.length === 1 ? 'idea' : 'ideas'}
-              </p>
-            </div>
+            <h1 className="text-2xl font-semibold text-white">{section}</h1>
           </div>
           
           <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm">
-              <Filter className="w-4 h-4 mr-2" />
-              Filter
+            <Button 
+              onClick={onAddIdea}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 h-10 rounded-lg"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add Idea
             </Button>
-            
-            <Button variant="outline" size="sm">
-              <SortAsc className="w-4 h-4 mr-2" />
-              Sort
-            </Button>
-            
-            <div className="flex bg-gray-100 rounded-lg p-1">
-              <button
-                onClick={() => setViewMode('grid')}
-                className={`p-1.5 rounded ${viewMode === 'grid' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}`}
-              >
-                <Grid3X3 className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => setViewMode('list')}
-                className={`p-1.5 rounded ${viewMode === 'list' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'}`}
-              >
-                <List className="w-4 h-4" />
-              </button>
-            </div>
             
             <Button
-              variant={chatOpen ? "default" : "outline"}
+              variant="outline"
               size="sm"
               onClick={() => setChatOpen(!chatOpen)}
-              className={chatOpen ? "bg-blue-600 text-white" : ""}
+              className={`${chatOpen ? "bg-gray-700 text-white border-gray-600" : "bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700"} rounded-lg`}
             >
               <MessageSquare className="w-4 h-4 mr-2" />
-              Chat
+              Show Chat
             </Button>
           </div>
         </div>
@@ -85,14 +63,17 @@ export default function CRMMainContent({
         <div className={`flex-1 p-6 ${chatOpen ? 'pr-0' : ''}`}>
           {cards.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl">💡</span>
+              <div className="w-16 h-16 bg-yellow-500/20 rounded-full flex items-center justify-center mb-6">
+                <span className="text-3xl">💡</span>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No ideas yet</h3>
-              <p className="text-gray-500 mb-6 max-w-md">
-                Start brainstorming by adding your first idea to the {section} section.
+              <h3 className="text-xl font-semibold text-white mb-3">No ideas yet in {section}</h3>
+              <p className="text-gray-400 mb-8 max-w-md leading-relaxed">
+                Start by adding your first idea to get the creative process going!
               </p>
-              <Button onClick={onAddIdea} className="bg-blue-600 hover:bg-blue-700 text-white">
+              <Button 
+                onClick={onAddIdea} 
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg"
+              >
                 Add Your First Idea
               </Button>
             </div>
@@ -120,7 +101,7 @@ export default function CRMMainContent({
 
         {/* Chat Panel */}
         {chatOpen && (
-          <div className="w-80 border-l border-gray-200 bg-gray-50">
+          <div className="w-80 border-l border-gray-700 bg-gray-800">
             <SectionChatPanel section={section} onClose={() => setChatOpen(false)} />
           </div>
         )}

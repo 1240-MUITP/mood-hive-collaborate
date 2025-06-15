@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { CardData, Comment } from "../components/MoodboardCard";
 import AddIdeaModal from "../components/AddIdeaModal";
@@ -133,7 +132,7 @@ export default function Index() {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-gray-50">
+    <div className="h-screen flex flex-col bg-gray-900">
       <CRMHeader onAddIdea={() => setAddOpen(true)} />
       
       <div className="flex-1 flex overflow-hidden">

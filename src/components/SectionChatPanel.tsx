@@ -1,6 +1,6 @@
 
 import { FC } from "react";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, X } from "lucide-react";
 
 interface Props {
   section: string;
@@ -8,38 +8,52 @@ interface Props {
 }
 
 const SectionChatPanel: FC<Props> = ({ section, onClose }) => (
-  <aside className="w-full sm:w-[330px] bg-white border-l border-gray-200 flex flex-col h-full p-4 z-10 shadow-lg text-gray-900">
-    <div className="flex items-center justify-between mb-2">
+  <div className="w-full bg-gray-800 flex flex-col h-full text-gray-200">
+    <div className="flex items-center justify-between p-4 border-b border-gray-700">
       <div className="flex items-center gap-2">
-        <MessageCircle className="w-5 h-5 text-blue-600" />
-        <span className="font-semibold text-blue-700">{section} Chat</span>
+        <MessageCircle className="w-5 h-5 text-blue-400" />
+        <span className="font-semibold text-white">{section} Chat</span>
       </div>
-      <button className="opacity-60 hover:opacity-90 px-2 py-1 text-2xl text-gray-600" onClick={onClose}>×</button>
-    </div>
-    <div className="flex-1 overflow-y-auto flex flex-col gap-4 items-start pt-1">
-      {/* Demo chat UI */}
-      <div className="bg-blue-50 rounded-lg px-3 py-2 max-w-[80%] border border-blue-200 shadow-sm">
-        <span className="text-xs opacity-70 text-blue-600">Utkarsh:</span>
-        <div className="text-blue-800">Let's collect ideas here!</div>
-      </div>
-      <div className="bg-blue-100 text-blue-800 rounded-lg px-3 py-2 self-end max-w-[80%] border border-blue-300 shadow-sm">
-        <span className="text-xs opacity-70 text-blue-700">You:</span>
-        <div>Sounds good, let's begin brainstorming.</div>
-      </div>
-    </div>
-    <form className="mt-2 flex rounded border border-gray-300 overflow-hidden bg-white">
-      <input
-        type="text"
-        placeholder="Type a message..."
-        className="flex-1 px-3 py-2 text-sm bg-white text-gray-900 border-0 focus:ring-0 outline-none"
-        disabled
-      />
-      <button type="submit" className="py-2 px-4 bg-blue-600 text-white text-sm hover:bg-blue-700 transition-colors" disabled>
-        Send
+      <button 
+        className="p-1 rounded hover:bg-gray-700 transition-colors" 
+        onClick={onClose}
+        title="Close chat"
+      >
+        <X className="w-4 h-4 text-gray-400" />
       </button>
-    </form>
-    <span className="text-xs opacity-50 mt-2 text-blue-600">[Demo only. Real-time chat coming soon!]</span>
-  </aside>
+    </div>
+    
+    <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      {/* Demo chat messages */}
+      <div className="bg-gray-700 rounded-lg px-3 py-2 max-w-[80%] border border-gray-600">
+        <span className="text-xs text-blue-400 opacity-70">Utkarsh:</span>
+        <div className="text-gray-200 mt-1">Let's collect ideas here!</div>
+      </div>
+      <div className="bg-blue-600 text-white rounded-lg px-3 py-2 self-end max-w-[80%] ml-auto">
+        <span className="text-xs text-blue-200 opacity-70">You:</span>
+        <div className="mt-1">Sounds good, let's begin brainstorming.</div>
+      </div>
+    </div>
+    
+    <div className="p-4 border-t border-gray-700">
+      <form className="flex rounded-lg border border-gray-600 overflow-hidden bg-gray-700">
+        <input
+          type="text"
+          placeholder="Type a message..."
+          className="flex-1 px-3 py-2 text-sm bg-transparent text-gray-200 border-0 focus:ring-0 outline-none placeholder-gray-400"
+          disabled
+        />
+        <button 
+          type="submit" 
+          className="py-2 px-4 bg-blue-600 text-white text-sm hover:bg-blue-700 transition-colors" 
+          disabled
+        >
+          Send
+        </button>
+      </form>
+      <span className="text-xs text-gray-500 mt-2 block">[Demo only. Real-time chat coming soon!]</span>
+    </div>
+  </div>
 );
 
 export default SectionChatPanel;
