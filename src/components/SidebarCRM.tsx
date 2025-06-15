@@ -1,5 +1,5 @@
 
-import { Video, Instagram, Product } from "lucide-react";
+import { Video, Instagram, Box } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const sideSections = [
@@ -7,7 +7,7 @@ const sideSections = [
   { label: "Instagram Grid", icon: "instagram", color: "bg-pink-500", iconType: "instagram" },
   { label: "Productions", icon: "dot", color: "bg-yellow-400" },
   { label: "Post Production", icon: "cube", color: "bg-orange-500" },
-  { label: "Product", icon: "product", color: "bg-green-500", iconType: "product" },
+  { label: "Product", icon: "box", color: "bg-green-500", iconType: "box" }, // changed here
   { label: "App Design", icon: "dot", color: "bg-violet-500" },
   { label: "App Development", icon: "dot", color: "bg-cyan-400", iconType: "app-development" },
   { label: "Incubator", icon: "dot", color: "bg-rose-500" },
@@ -20,8 +20,8 @@ function getIcon(iconType: string) {
       return Video;
     case "instagram":
       return Instagram;
-    case "product":
-      return Product;
+    case "box":
+      return Box;
     default:
       return null;
   }
