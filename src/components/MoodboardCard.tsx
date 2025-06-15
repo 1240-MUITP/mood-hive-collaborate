@@ -1,6 +1,6 @@
 
 import { FC } from "react";
-import { BookOpen, Code, FolderOpen, Edit, MessageSquare, Paperclip } from "lucide-react";
+import { BookOpen, Code, FolderOpen, Edit, MessageSquare, Paperclip, Trash2, ExternalLink } from "lucide-react";
 
 type CardType = "script" | "image" | "note";
 
@@ -12,6 +12,7 @@ interface CardData {
   imageUrl?: string;
   language?: string;
   fileName?: string;
+  link?: string;
   comments?: Comment[];
 }
 
@@ -54,9 +55,10 @@ interface MoodboardCardProps {
   data: CardData;
   onEdit: (card: CardData) => void;
   onComment: (card: CardData) => void;
+  onDelete: (cardId: string) => void;
 }
 
-const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment }) => {
+const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment, onDelete }) => {
   const Icon = typeIcon[data.type];
 
   return (
@@ -86,6 +88,13 @@ const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment }) => {
               </span>
             )}
           </button>
+          <button 
+            onClick={() => onDelete(data.id)}
+            className="p-1 rounded hover:bg-red-100 transition-colors"
+            title="Delete idea"
+          >
+            <Trash2 className="w-4 h-4 text-red-500 hover:text-red-700" />
+          </button>
         </div>
       </div>
       
@@ -106,6 +115,15 @@ const MoodboardCard: FC<MoodboardCardProps> = ({ data, onEdit, onComment }) => {
       
       {data.type === "note" && (
         <div className="text-base mt-1 text-gray-700">{data.content}</div>
+      )}
+      
+      {data.link && (
+        <div className="mt-3 flex items-center gap-2 text-sm text-blue-600 bg-blue-50 rounded p-2 border border-blue-200">
+          <ExternalLink className="w-4 h-4" />
+          <a href={data.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
+            {data.link}
+          </a>
+        </div>
       )}
       
       {data.fileName && (

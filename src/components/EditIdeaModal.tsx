@@ -15,6 +15,7 @@ interface Props {
 export default function EditIdeaModal({ open, onClose, onSave, card }: Props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [link, setLink] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [existingFileName, setExistingFileName] = useState("");
 
@@ -22,6 +23,7 @@ export default function EditIdeaModal({ open, onClose, onSave, card }: Props) {
     if (card) {
       setTitle(card.title);
       setContent(card.content || "");
+      setLink(card.link || "");
       setExistingFileName(card.fileName || "");
       setFile(null);
     }
@@ -43,6 +45,7 @@ export default function EditIdeaModal({ open, onClose, onSave, card }: Props) {
       ...card,
       title,
       content,
+      link: link.trim() || undefined,
       fileName: file ? file.name : (existingFileName || undefined),
     };
     
@@ -78,6 +81,16 @@ export default function EditIdeaModal({ open, onClose, onSave, card }: Props) {
               value={content}
               onChange={e => setContent(e.target.value)}
               placeholder="Describe your idea..."
+            />
+          </div>
+          <div>
+            <label className="block font-medium mb-1 text-gray-700">Link (Optional)</label>
+            <Input 
+              type="url" 
+              value={link} 
+              onChange={e => setLink(e.target.value)} 
+              placeholder="https://example.com" 
+              className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-500" 
             />
           </div>
           <div>

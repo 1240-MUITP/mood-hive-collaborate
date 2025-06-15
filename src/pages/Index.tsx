@@ -43,7 +43,7 @@ export default function Index() {
 
   function handleAdd(
     type: "note",
-    data: { title: string; description: string; file?: File | null }
+    data: { title: string; description: string; file?: File | null; link?: string }
   ) {
     setCards(prev => ({
       ...prev,
@@ -54,6 +54,7 @@ export default function Index() {
           title: data.title,
           content: data.description,
           fileName: data.file?.name,
+          link: data.link,
           comments: [],
         },
         ...(prev[section] || [])
@@ -73,6 +74,15 @@ export default function Index() {
         card.id === updatedCard.id ? updatedCard : card
       )
     }));
+  }
+
+  function handleDelete(cardId: string) {
+    if (confirm("Are you sure you want to delete this idea?")) {
+      setCards(prev => ({
+        ...prev,
+        [section]: prev[section].filter(card => card.id !== cardId)
+      }));
+    }
   }
 
   function handleComment(card: CardData) {
@@ -171,6 +181,7 @@ export default function Index() {
                 key={card.id} 
                 onEdit={handleEdit}
                 onComment={handleComment}
+                onDelete={handleDelete}
               />
             ))}
           </section>

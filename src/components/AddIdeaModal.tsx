@@ -13,6 +13,7 @@ type Props = {
       title: string;
       description: string;
       file?: File | null;
+      link?: string;
     }
   ) => void;
   section: string;
@@ -22,6 +23,7 @@ export default function AddIdeaModal({ open, onClose, onAdd, section }: Props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [link, setLink] = useState("");
 
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length > 0) {
@@ -34,10 +36,11 @@ export default function AddIdeaModal({ open, onClose, onAdd, section }: Props) {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!title.trim() || !description.trim()) return;
-    onAdd("note", { title, description, file });
+    onAdd("note", { title, description, file, link: link.trim() || undefined });
     setTitle("");
     setDescription("");
     setFile(null);
+    setLink("");
     onClose();
   }
 
@@ -61,6 +64,16 @@ export default function AddIdeaModal({ open, onClose, onAdd, section }: Props) {
               value={description}
               onChange={e => setDescription(e.target.value)}
               placeholder="Describe your idea..."
+            />
+          </div>
+          <div>
+            <label className="block font-medium mb-1 text-gray-700">Link (Optional)</label>
+            <Input 
+              type="url" 
+              value={link} 
+              onChange={e => setLink(e.target.value)} 
+              placeholder="https://example.com" 
+              className="bg-white border-gray-300 text-gray-900 placeholder:text-gray-500" 
             />
           </div>
           <div>
