@@ -109,11 +109,7 @@ export default function Index() {
         <TopbarCRM section={section} />
         <main className="flex-1 flex flex-col px-2 sm:px-8 pt-6 pb-10 max-w-[1600px] mx-auto min-w-0 relative">
           <div className="flex items-start gap-3 mb-8">
-            <input
-              type="text"
-              placeholder="Search ideas..."
-              className="bg-[#23242A] text-white placeholder:text-gray-400 px-3 py-2 rounded-md border border-[#33394d] focus:outline-none focus:border-blue-500 w-52 transition"
-            />
+            <input type="text" placeholder="Search ideas..." className="bg-[#23242A] text-white placeholder:text-gray-400 px-3 py-2 rounded-md border border-[#33394d] focus:outline-none focus:border-blue-500 w-52 transition" />
             <Button variant="default" size="sm" className="bg-blue-600 hover:bg-blue-700 text-white shadow" onClick={() => setAddOpen(true)}>
               + Add Idea
             </Button>
@@ -122,7 +118,7 @@ export default function Index() {
               <span className="hidden sm:inline">{chatOpen ? "Hide" : "Show"} Chat</span>
             </Button>
           </div>
-          {(cards[section] ?? []).length === 0 ? <div className="flex flex-col items-center justify-center py-24 text-center w-full bg-[#23242A] shadow-lg transition-all rounded-none">
+          {(cards[section] ?? []).length === 0 ? <div className="flex flex-col items-center justify-center py-24 text-center w-full shadow-lg transition-all rounded-none bg-transparent">
               <div className="mb-4 flex justify-center">
                 <span className="inline-flex items-center justify-center text-[56px] text-yellow-400 drop-shadow" style={{
               filter: "drop-shadow(0 0 25px #FFD60066)"
